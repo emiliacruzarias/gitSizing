@@ -140,6 +140,9 @@ for i, (filename) in enumerate(dat_files):
     binary_objects = enhanced_edges > thresh
     axs[i].imshow(binary_objects, cmap=plt.cm.gray)
     
+    ### Hough circle transform and circle fill
+    
+    
     ### watershed segmentation
     ### apply watershed segmentation bounded
     distance = ndi.distance_transform_edt(binary_objects)
@@ -214,56 +217,5 @@ ax_dist.legend(framealpha=0)
 fig.tight_layout()
 plt.show()    
 
-# ### apply difference of gaussians filter 
-# sigma_low = 1
-# sigma_high = 20
-# filtered_image = difference_of_gaussians(im, low_sigma=sigma_low, high_sigma=sigma_high)
-# ax0.set_title('Gaussian blur', fontsize = 6)
-# ax0.imshow(filtered_image, cmap=plt.cm.gray)
-    
-# ### Enhance edges and threshold
-# enhanced_edges = exposure.equalize_hist(filtered_image)
-# thresh = threshold_li(enhanced_edges)
-# binary_objects = enhanced_edges > thresh
 
-# ax1.set_title('Binary mask', fontsize = 6)
-
-# ax1.imshow(binary_objects, cmap=plt.cm.gray)
-
-# ### apply watershed segmentation bounded
-# distance = ndi.distance_transform_edt(binary_objects)
-# coords = peak_local_max(distance, min_distance=16, labels=binary_objects) ### 16 pixels is the minimum diameter that can be detected
-# mask = np.zeros(distance.shape, dtype=bool)
-# mask[tuple(coords.T)] = True
-# markers, _ = ndi.label(mask)
-# labels = watershed(-distance, markers, mask=binary_objects)
-    
-# valid_centers_x = []
-# valid_centers_y = []
-# valid_radii = []
-
-# for region in regionprops(labels):
-#     # Calculate equivalent radius: area = pi * r^2  =>  r = sqrt(area / pi)
-#     radius = np.sqrt(region.area / np.pi)
-    
-#     # Filter out regions that don't match the target radius size (8 to 52 pixels)
-#     if 8 <= radius <= 63.34782: 
-#         cy, cx = region.centroid
-#         valid_centers_x.append(cx)
-#         valid_centers_y.append(cy)
-#         valid_radii.append(radius)
-    
-# labels_overlay = label2rgb(labels, image=binary_objects, bg_label=0)
-
-# ax2.set_title('Watershed segmentation', fontsize = 6)
-# ax2.imshow(labels_overlay)
-
-# ax2.imshow(filtered_image, cmap=plt.cm.gray)
-
-# for cx, cy, r in zip(valid_centers_x, valid_centers_y, valid_radii):
-#     circle = plt.Circle((cx, cy), r, color='red', fill=False, linewidth=0.5) ##, alpha=0.3)
-#     ax2.add_patch(circle)
-
-# plt.tight_layout()
-# plt.show()
 
